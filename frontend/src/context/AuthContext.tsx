@@ -73,6 +73,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             setToken(res.access_token);
             setTokenState(res.access_token);
             setUser(res.user);
+          } else if (isSubscribed && res.is_new_user) {
+            const regRes = await api.register({
+              phone: '+15550101',
+              username: 'alice',
+              display_name: 'Alice Smith',
+              about: 'Privacy is key 🔒',
+            });
+            setToken(regRes.access_token);
+            setTokenState(regRes.access_token);
+            setUser(regRes.user);
           }
         } catch (err) {
           console.error('Auto login failed:', err);
@@ -102,6 +112,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             setToken(res.access_token);
             setTokenState(res.access_token);
             setUser(res.user);
+          } else if (isSubscribed && res.is_new_user) {
+            const regRes = await api.register({
+              phone: '+15550101',
+              username: 'alice',
+              display_name: 'Alice Smith',
+              about: 'Privacy is key 🔒',
+            });
+            setToken(regRes.access_token);
+            setTokenState(regRes.access_token);
+            setUser(regRes.user);
           }
         } catch (autoErr) {
           console.error('Auto login failed:', autoErr);

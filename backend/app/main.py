@@ -4,7 +4,9 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from app.config import settings
-from app.db.session import async_engine, Base
+from app.db.session import async_engine, Base, SyncSessionLocal
+from app.db.models import User
+from app.seed import seed_database
 from app.api.router import api_router
 from app.websocket.handler import router as ws_router
 
@@ -16,6 +18,19 @@ async def lifespan(app: FastAPI):
     # Initialize database tables on startup
     async with async_engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
+
+    # Auto-seed database if empty (ensures production deployment has default users & sample chats)
+    db = SyncSessionLocal()
+    try:
+        user_count = db.query(User).count()
+        if user_count == 0:
+            print("No users found in database. Auto-seeding default Signal users & conversations...")
+            seed_database()
+    except Exception as e:
+        print(f"Auto-seed check warning: {e}")
+    finally:
+        db.close()
+
     yield
     # Clean up engine connection on shutdown
     await async_engine.dispose()
