@@ -1,0 +1,22 @@
+# Dependencies & Environments
+node_modules/
+frontend/node_modules/
+backend/venv/
+backend/__pycache__/
+app/__pycache__/
+*.pyc
+.env
+.env.local
+.env*.local
+
+# Build Outputs
+frontend/.next/
+frontend/out/
+frontend/build/
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# Database & System Files
+*.db
+*.sqlite
+.DS_Store
