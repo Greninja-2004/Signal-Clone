@@ -1,4 +1,6 @@
 'use client';
+// Force Vercel deployment rebuild for Signal Light Theme App
+
 
 import React from 'react';
 import LandingNavbar from '@/components/landing/LandingNavbar';
